@@ -22,10 +22,9 @@ class AgreementAPIViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
-class TotalAmount(viewsets.ModelViewSet):
+class TotalAmount(views.APIView):
     
-    
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if Sponsor.objects.all():
             total_amount = sum(list(map(lambda dct: dct[0], Sponsor.objects.all().values_list('payment_amount'))))
         
@@ -35,18 +34,18 @@ class TotalAmount(viewsets.ModelViewSet):
         return response.Response({'total_amount': total_amount}, status=status.HTTP_200_OK)    
 
 
-class TotalAmountNeeded(viewsets.ModelViewSet):
+class TotalAmountNeeded(views.APIView):
     
     
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         total_amount_needed = sum(list(map(lambda dct: dct[0], Student.objects.all().values_list('univer__contract_amount'))))
         return response.Response({'total_amount_needed': total_amount_needed}, status=status.HTTP_200_OK)    
 
 
-class TotalAmountDue(viewsets.ModelViewSet):
+class TotalAmountDue(views.APIView):
     
     
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         total_amount_needed = sum(list(map(lambda dct: dct[0], Student.objects.all().values_list('univer__contract_amount'))))
         amount_paid = sum(list(map(lambda dct: dct[0], Student.objects.all().values_list('allocated_amount'))))
 

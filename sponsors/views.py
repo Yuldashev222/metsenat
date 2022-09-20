@@ -30,20 +30,20 @@ class SponsorAPIViewSet(viewsets.ModelViewSet):
 
 
 
-class CountSponsors(viewsets.ViewSet):
+class CountSponsors(views.APIView):
 
 
-    def list(self, request):
+    def get(self, request, *args, **kwargs):
         cnt = models.Sponsor.objects.all().count()
         return response.Response({'count': cnt}, status=status.HTTP_200_OK)    
 
 
 
 
-class FilterSponsorsInDateAPIView(viewsets.ViewSet):
+class FilterSponsorsInDateAPIView(views.APIView):
 
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         year = kwargs.get('year')
         month = kwargs.get('month')
 

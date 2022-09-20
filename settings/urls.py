@@ -28,9 +28,9 @@ urlpatterns = [
     path('', include('students.urls')),
     
     
-    path('total-amount/', TotalAmount.as_view({'get': 'list'})),
-    path('total-amount-needed/', TotalAmountNeeded.as_view({'get': 'list'})),
-    path('amount-due/', TotalAmountDue.as_view({'get': 'list'})),
+    path('total-amount/', TotalAmount.as_view()),
+    path('total-amount-needed/', TotalAmountNeeded.as_view()),
+    path('amount-due/', TotalAmountDue.as_view()),
 
     
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

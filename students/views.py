@@ -4,7 +4,7 @@ from django.shortcuts import render
 from . import models, serializers as sponsor_serializers, enums, services
 
 
-from rest_framework import viewsets, response, status
+from rest_framework import viewsets, response, status, views
 
 
 class StudentAPIViewSet(viewsets.ModelViewSet):
@@ -21,20 +21,20 @@ class UniverAPIViewSet(viewsets.ModelViewSet):
 
 
 
-class CountStudents(viewsets.ViewSet):
+class CountStudents(views.APIView):
 
 
-    def list(self, request):
+    def get(self, request, *args, **kwargs):
         cnt = models.Student.objects.all().count()
         return response.Response({'count': cnt}, status=status.HTTP_200_OK)    
     
 
 
 
-class CountUnivers(viewsets.ViewSet):
+class CountUnivers(views.APIView):
 
 
-    def list(self, request):
+    def get(self, request, *args, **kwargs):
         cnt = models.Univer.objects.all().count()
         return response.Response({'count': cnt}, status=status.HTTP_200_OK)    
     
