@@ -5,6 +5,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from main.views import TotalAmount, TotalAmountNeeded, TotalAmountDue
+from main.routers import ADMIN_CRUD_ROUTER
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -26,6 +27,7 @@ urlpatterns = [
     path('sponsors/', include('sponsors.urls')),
     path('agreements/', include('main.urls')),
     path('', include('students.urls')),
+    path('admins/', include(ADMIN_CRUD_ROUTER.urls)),
     
     
     path('total-amount/', TotalAmount.as_view()),

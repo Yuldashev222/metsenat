@@ -3,6 +3,7 @@ from django.shortcuts import render
 from sponsors.models import Sponsor
 from students.models import Student
 
+from django.contrib.auth.models import User
 
 
 from . import models, serializers as main_serializers
@@ -17,9 +18,21 @@ class AgreementAPIViewSet(viewsets.ModelViewSet):
     queryset = models.Agreement.objects.all()
     serializer_class = main_serializers.AgreementSerializer
     
+
+
+class AdminAPIViewSet(viewsets.ModelViewSet):
+    
+    queryset = User.objects.all()
+    serializer_class = main_serializers.AdminSerializer
     
     def create(self, request, *args, **kwargs):
+        data = request.data.copy()
+        
+        if not data.get('is_active'):
+            data['is_active'] = 'true'
+            
         return super().create(request, *args, **kwargs)
+    
 
 
 class TotalAmount(views.APIView):

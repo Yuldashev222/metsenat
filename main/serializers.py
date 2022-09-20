@@ -1,7 +1,45 @@
 from rest_framework import serializers
 
-
+from django.contrib.auth.models import User
 from . import models
+from django.contrib.auth import password_validation, hashers
+from django.core import exceptions
+
+
+
+class AdminSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+        
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+        
+    
+    def validate(self, data):
+        user = User(**data)
+        
+        errors = dict()     
+        
+    # password validations -----------------------------------------------
+        password = data.get('password')
+        if password:
+            try:
+                password_validation.validate_password(password=password, user=user)
+            
+            except exceptions.ValidationError as e:
+                raise serializers.ValidationError({'password': list(e.messages)})
+                
+            
+            data['password'] = hashers.make_password(data['password'])
+    # --------------------------------------------------------------------
+
+            
+        return super(AdminSerializer, self).validate(data)
+    
+
 
 
 class AgreementSerializer(serializers.ModelSerializer):
