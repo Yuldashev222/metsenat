@@ -14,5 +14,5 @@ class SponsorSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         
-        validated_data['type'] = enums.SponsorType.new.value
+        validated_data['status'] = enums.SponsorStatus.new.value
         return super().create(validated_data)
