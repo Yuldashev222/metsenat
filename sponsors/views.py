@@ -32,6 +32,7 @@ class SponsorAPIViewSet(viewsets.ModelViewSet):
         
         return super().create(request, *args, **kwargs)
     
+    
 
 class CountSponsors(views.APIView):
 
