@@ -3,16 +3,25 @@ from django.shortcuts import render
 from datetime import datetime, timedelta
 
 from . import models, serializers as sponsor_serializers, enums
+import django_filters
+
+from rest_framework import viewsets, response, status, views, generics, serializers, filters
 
 
-from rest_framework import viewsets, response, status, views, generics, serializers
+class SponsorDateFilter(django_filters.FilterSet):
+    date_created = django_filters.DateFilter(field_name='date_created__date', lookup_expr="exact")
 
+    class Meta:
+        model = models.Sponsor
+        fields = ('date_created',)
 
 
 class SponsorAPIViewSet(viewsets.ModelViewSet):
     
     queryset = models.Sponsor.objects.all()
     serializer_class = sponsor_serializers.SponsorSerializer
+    filterset_class = SponsorDateFilter
+    filterset_fields = ('date_created',)
     
     def create(self, request, *args, **kwargs):
         sponsor_type = request.data.get('type')
@@ -23,6 +32,7 @@ class SponsorAPIViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
     
     def list(self, request, *args, **kwargs):
+        
         print(request.query_params)
         
         return super().list(request, *args, **kwargs)
